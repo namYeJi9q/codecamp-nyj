@@ -10,11 +10,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <div>
-      <div>askldjfklasdfjklasdjfaskldf</div>
+      <div>rrrrrrrrrr</div>
       <ApolloProvider client={client}>
         <Component />
       </ApolloProvider>
-      <div>qowiejfklasjdfklasjdfklasdjf</div>
+      <div>rrrrrrrrrrr</div>
     </div>
   )
 }
