@@ -65,10 +65,10 @@ export default function BoardWrite(){
         const result = await createBoard({
           variables: {
             createBoardInput: {
-              writer,
-              password,
-              title,
-              contents
+              writer: writer,
+              password: password,
+              title: title,
+              contents: contents
             }
           }
         })
