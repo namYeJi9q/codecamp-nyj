@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 
-import { 나의그래프큐엘셋팅 } from './BoardWrite.queries'                      // export 가져오기
+import { UPDATE_BOARD, 나의그래프큐엘셋팅 } from './BoardWrite.queries'                      // export 가져오기
 import BoardWriteUI from "./BoardWrite.presenter"                         // export default 가져오기
+import { useRouter } from 'next/router'
 // import Aqwlkjefkoasjd from "./BoardWrite.presenter"                    // export default 이름 바꿔서 가져오기
 // import Aqwlkjefkoasjd, { 나의그래프큐엘셋팅 } from "./BoardWrite.presenter" // export default와 export 함께 가져오기
 
@@ -10,7 +11,9 @@ import BoardWriteUI from "./BoardWrite.presenter"                         // exp
 // S.BlueButton                                                         // export 한방에 다 가져오기
 // S.RedInput                                                           // export 한방에 다 가져오기
 
-export default function BoardWrite(){
+export default function BoardWrite(props){
+    const router = useRouter()
+
     const [isActive, setIsActive] = useState(false)
 
     const [writer, setWriter] = useState("")
@@ -18,8 +21,11 @@ export default function BoardWrite(){
     const [contents, setContents] = useState("")
     
     const [나의함수] = useMutation(나의그래프큐엘셋팅)
+    const [updateBoard] = useMutation(UPDATE_BOARD)
     
     const onClickSubmit = async () => {
+        // router.query.number // undefined
+
         const result = await 나의함수({
             variables: {                // variables 이게 $ 역할을 함
                 writer: writer,
@@ -28,6 +34,22 @@ export default function BoardWrite(){
             }
         })
         console.log(result)
+        router.push(`/08-05-boards/${result.data.createBoard.number}`) 
+    }
+
+    const onClickEdit = async () => {
+        // router.query.number // 13
+
+        const result = await updateBoard({
+            variables: {                // variables 이게 $ 역할을 함
+                number: Number(router.query.number),
+                writer: writer,
+                title: title,
+                contents: contents
+            }
+        })
+        console.log(result)
+        router.push(`/08-05-boards/${result.data.updateBoard.number}`) 
     }
     
     console.log(Math.random())
@@ -65,6 +87,8 @@ export default function BoardWrite(){
                 ccc={onChangeTitle}
                 ddd={onChangeContents}
                 eee={isActive}
+                fff={props.isEdit}
+                ggg={onClickEdit}
             />
             <div>aaaaaaaaaaaaaa</div>
         </div>

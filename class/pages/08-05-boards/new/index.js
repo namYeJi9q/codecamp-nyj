@@ -1,10 +1,10 @@
-import BoardWrite from "../../src/components/units/board/08-write/BoardWrite.container";
+import BoardWrite from "../../../src/components/units/board/08-write/BoardWrite.container";
 
 export default function GraphqlMutationPage(){
     return (
         <div>
             <div>zzzzzzzzzzzz</div>
-            <BoardWrite />
+            <BoardWrite isEdit={false} />
             <div>zzzzzzzzzzzz</div>
        </div>
     )
