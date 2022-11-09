@@ -41,7 +41,9 @@ export default function StaticRoutedPage(){
     }
 
     return (
-        <div>
+        
+        <> {/* 페이지 => 프레그먼트로 감싸기. div는 그려야될 태그가 1개 더 많아져서 느려짐 */}
+           {/* map  => div로 감싸기. 프레그먼트는 각 요소들을 구분짓기 위해 감쌀 수 없음 */}
             {data?.fetchBoards.map((el, index) => (
                 // 프레그먼트에 key 주는 방법
                 // 1. 안되는 경우   =>   < key=""></>         
@@ -54,7 +56,7 @@ export default function StaticRoutedPage(){
                     <span style={{margin: "10px"}}><button id={el.number} onClick={onClickDelete}>삭제</button></span>
                 </div>
             ))}
-        </div>
+        </>
     )
 
 }
