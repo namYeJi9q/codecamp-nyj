@@ -107,15 +107,26 @@ export default function BoardWrite(props){
   };
 
   const onClickUpdate = async () => {
+    if (!title && !contents) {
+      alert("수정한 내용이 없습니다.");
+      return;
+    }
+
+    if (!password) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+
+    const updateBoardInput = {};
+    if (title) updateBoardInput.title = title;
+    if (contents) updateBoardInput.contents = contents;
+
     try {
       const result = await updateBoard({
         variables: {
           boardId: router.query.boardId,
           password: password,
-          updateBoardInput: {
-            title: title,
-            contents: contents
-          },
+          updateBoardInput: updateBoardInput
         },
       })
       router.push(`/boards/${result.data.updateBoard._id}`)
@@ -138,6 +149,7 @@ export default function BoardWrite(props){
         onClickSubmit={onClickSubmit}
         onClickUpdate={onClickUpdate}
         isEdit={props.isEdit}
+        data={props.data}
     />
   )
 }
