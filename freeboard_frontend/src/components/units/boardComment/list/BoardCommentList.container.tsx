@@ -7,6 +7,11 @@ import { DELETE_BOARD_COMMENT, FETCH_BOARD_COMMENTS } from "./BoardCommentList.q
 
 export default function BoardCommentList() {
   const router = useRouter();
+  if(typeof router.query.boardId !== "string") {
+    console.log("페이지를 제대로 접속해 주세요!!!")
+    return <>에러화면!!!</>
+  }
+
   const [deleteBoardComment] = useMutation<
     Pick<IMutation, "deleteBoardComment">,
     IMutationDeleteBoardCommentArgs
@@ -23,7 +28,7 @@ export default function BoardCommentList() {
       await deleteBoardComment({
         variables: {
           password: myPassword,
-          boardCommentId: event.target.id,
+          boardCommentId: event.currentTarget.id,
         },
         refetchQueries: [
           {
@@ -33,7 +38,10 @@ export default function BoardCommentList() {
         ],
       });
     } catch (error) {
-      alert(error.message)
+      // const qqq = new Date()
+      // qqq instanceof Date  => qqq가 Date의 자식이냐?
+
+      if(error instanceof Error) alert(error.message)
     }
   };
 
