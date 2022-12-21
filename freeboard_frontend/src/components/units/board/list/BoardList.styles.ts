@@ -1,8 +1,25 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
+  width: 100%;
+`;
+
+export const InnerWapper = styled.section`
   width: 1200px;
-  margin: 100px;
+  margin: 100px auto;
+`;
+
+export const SearchWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px;
+`;
+
+export const TableCount = styled.div`
+  text-align: left;
+  color: hotpink;
 `;
 
 export const TableTop = styled.div`
@@ -56,6 +73,7 @@ export const Footer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   padding-top: 50px;
+  align-items: center;
 `;
 
 export const PencilIcon = styled.img``;

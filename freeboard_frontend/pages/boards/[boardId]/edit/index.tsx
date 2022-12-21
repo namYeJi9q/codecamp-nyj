@@ -1,6 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
+import { isConstValueNode } from "graphql";
 import { useRouter } from "next/router";
-import { IQuery, IQueryFetchBoardArgs } from "../../../../src/commons/types/generated/types";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { isEditState } from "../../../../src/commons/stores";
+import {
+  IQuery,
+  IQueryFetchBoardArgs,
+} from "../../../../src/commons/types/generated/types";
 import BoardWrite from "../../../../src/components/units/board/write/BoardWrite.container";
 
 const FETCH_BOARD = gql`
@@ -9,17 +16,33 @@ const FETCH_BOARD = gql`
       writer
       title
       contents
+      youtubeUrl
+      boardAddress {
+        zipcode
+        address
+        addressDetail
+      }
+      images
     }
   }
 `;
 
-
 export default function BoardsEditPage() {
   const router = useRouter();
-  const { data } = useQuery<
-    Pick<IQuery, "fetchBoard">,
-    IQueryFetchBoardArgs
-  >(FETCH_BOARD, { variables: { boardId: router.query.boardId }});
+  const [isEdit, setIsEdit] = useRecoilState(isEditState);
 
-  return <BoardWrite isEdit={true} data={data} />;
+  useEffect(() => {
+    setIsEdit(true);
+  });
+
+  if (typeof router.query.boardId !== "string") {
+    console.log("잘못된 접근");
+    return <></>;
+  }
+  const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
+    FETCH_BOARD,
+    { variables: { boardId: router.query.boardId } }
+  );
+
+  return <BoardWrite data={data} />;
 }

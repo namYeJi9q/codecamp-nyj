@@ -1,22 +1,30 @@
 import "../styles/globals.css";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { AppProps } from "next/app";
-
+import Layout from "../src/components/commons/layout";
+import ApolloSetting from "../src/components/commons/apollo";
+import { Global } from "@emotion/react";
+import { globalStyles } from "../src/commons/styles/globalStyles";
+import { RecoilRoot } from "recoil";
 function MyApp({ Component, pageProps }: AppProps) {
-  const qqq = 3;
-
-  const client = new ApolloClient({
-    uri: "http://example.codebootcamp.co.kr/graphql",
-    cache: new InMemoryCache(), // 컴퓨터의 메모리에다가 백엔드에서 받아온 데이터 모두 임시로 저장해 놓기 => 나중에 알아보기
-  });
-
   return (
     <div>
-      <div>rrrrrrrrrr</div>
-      <ApolloProvider client={client}>
-        <Component />
-      </ApolloProvider>
-      <div>rrrrrrrrrrr</div>
+      {/* <Head>  // 모든 페이지에서 카카오맵을 다운로드 받으므로 비효율적임
+        <script
+          type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0c2d716eaabacde4a664321997aa22c6"
+        ></script>
+        ;
+      </Head> */}
+      <RecoilRoot>
+        <ApolloSetting>
+          <>
+            <Global styles={globalStyles} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </>
+        </ApolloSetting>
+      </RecoilRoot>
     </div>
   );
 }

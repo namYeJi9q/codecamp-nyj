@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>this의 이해</title>
+    <script>
+      class ClassCounterPage {
+        // 이 this를 강제하고 싶다면. 2가지 방법이 있다. 1. .bind(this)를 통해 연결 , 2. 화살표 함수로 변경
+        count = 10;
+        // this는 실행하는 주체에 따라 동적으로 바뀜
+        // 내가 버튼을 클릭했기때문에 버튼이 주체가 된다.
+        // 보기에는 count가 주체같지만 클릭한 시점에서 주체는 버튼을 클릭하면 실행하기 때문에 버튼이다.
+        // 실행하는게 주제이다.
+
+        // onClickCountUp() {
+        //   console.log("현재 카운트: ", this.count);
+        // }
+
+        // 화살표함수로 바꾸어도 bind와 같이 강제할 수 있다.
+        onClickCountUp = () => {
+          console.log("현재 카운트: ", this.count);
+        };
+
+        render() {
+          // 버튼이라는 함수에 버튼이라는 엘리먼트를 만들어주세요
+          const button = document.createElement("button");
+          // button.count = 100;
+          button.innerText = "카운트 올리기";
+          // bind를 하면 this를 강제할 수 있다.
+          // button.addEventListener("click", this.onClickCountUp.bind(this));
+          button.addEventListener("click", this.onClickCountUp);
+          document.body.appendChild(button);
+        }
+      }
+
+      window.onload = function () {
+        const counter = new ClassCounterPage();
+        counter.render();
+      };
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,15 +1,13 @@
 import styled from "@emotion/styled";
+import { Modal } from "antd";
 import { ISubmitButtonProps } from "./BoardWrite.types";
+import DaumPostcode from "react-daum-postcode";
 
 export const Wrapper = styled.div`
   width: 1200px;
-  /* height: 1847px; */
+  margin: 100px auto;
   border: 1px solid black;
-  margin: 100px;
-  padding-top: 80px;
-  padding-bottom: 100px;
-  padding-left: 102px;
-  padding-right: 102px;
+  padding: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,22 +119,6 @@ export const UploadButton = styled.button`
   cursor: pointer;
 `;
 
-export const OptionWrapper = styled.div`
-  width: 996px;
-  padding-top: 40px;
-`;
-
-export const RadioButton = styled.input`
-  cursor: pointer;
-`;
-
-export const RadioLabel = styled.label`
-  margin-left: 8px;
-  margin-right: 20px;
-  font-weight: 500;
-  cursor: pointer;
-`;
-
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -146,7 +128,7 @@ export const ButtonWrapper = styled.div`
 
 export const CancelButton = styled.button`
   width: 179px;
-  height: 52px;
+  height: 48px;
   background-color: #bdbdbd;
   border: none;
   font-size: 16px;
@@ -158,7 +140,7 @@ export const CancelButton = styled.button`
 
 export const SubmitButton = styled.button`
   width: 179px;
-  height: 52px;
+  height: 48px;
   border: none;
   font-size: 16px;
   font-weight: 500;
@@ -175,3 +157,7 @@ export const Error = styled.div`
   font-size: 14px;
   color: red;
 `;
+
+export const AddressModal = styled(Modal)``;
+
+export const AddressSearchInput = styled(DaumPostcode)``;

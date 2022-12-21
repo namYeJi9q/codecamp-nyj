@@ -1,0 +1,25 @@
+function useState(qqq){
+
+    const myState = qqq
+
+    const mySetState = (value) => {
+        console.log(`${myState}에서 ${value}로 state를 변경하겠습니다!!!`);
+        console.log(`변경된 ${value}를 사용해서 컴포넌트를 리렌더링 하겠습니다!!!`);
+    };
+    
+    return [myState, mySetState]
+    
+}
+undefined
+const [count, setCount] = useState(0)
+undefined
+count
+0
+setCount()
+VM5902:6 state를 변경합니다!!!
+undefined
+const zzz = useState(0)
+undefined
+zzz[0]
+0
+zzz[1](5)

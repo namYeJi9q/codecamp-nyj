@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>closure 실습</title>
+    <script>
+      function aaa() {
+        const apple = 10;
+        // 스코프체인을 통해서 함수 밖 apple을 참조한다.
+        function bbb() {
+          const banana = 20;
+
+          function ccc() {
+            const tomato = 30;
+
+            console.log(banana);
+            console.log(apple);
+            console.log(qqq);
+            console.log(tomato);
+          }
+
+          ccc();
+        }
+        const qqq = 3;
+
+        bbb();
+      }
+      function qqqq() {
+        console.log(111);
+      }
+      qqqq();
+      aaa();
+    </script>
+  </head>
+  <body></body>
+</html>
