@@ -5,10 +5,12 @@ export default function SimpleSlider() {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
+    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
   };
   return (
     <S.Wrapper>
@@ -16,10 +18,6 @@ export default function SimpleSlider() {
         <S.SliderItem src="/images/BannerImg/banner1.jpg" />
         <S.SliderItem src="/images/BannerImg/banner2.jpg" />
         <S.SliderItem src="/images/BannerImg/Snow.jpg" />
-        <S.SliderItem
-          src="/images/BannerImg/Clouds.jpg"
-          // style={{ objectPosition: "0 50%" }}
-        />
       </S.Wrap>
     </S.Wrapper>
   );

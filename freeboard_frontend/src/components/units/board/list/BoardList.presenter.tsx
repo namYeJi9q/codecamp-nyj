@@ -12,13 +12,14 @@ export default function BoardListUI(props: IBoardListUIProps) {
   return (
     <S.Wrapper>
       <S.InnerWapper>
+        <S.Title>게시판</S.Title>
         <S.SearchWrap>
-          <S.TableCount>게시글 {props.count}개</S.TableCount>
           <Search01Page
             refetch={props.refetch}
             refetchBoardsCount={props.refetchBoardsCount}
             onChangeKeyword={props.onChangeKeyword}
           />
+          <S.TableCount>게시글 {props.count}개</S.TableCount>
         </S.SearchWrap>
         <S.TableTop />
         <S.Row>

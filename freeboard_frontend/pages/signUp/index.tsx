@@ -93,6 +93,7 @@ export const LoginTitle = styled.h2`
 
 export default function SignUpPage() {
   const router = useRouter();
+
   const [createUser] = useMutation<
     Pick<IMutation, "createUser">,
     IMutationCreateUserArgs

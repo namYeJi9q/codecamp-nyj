@@ -1,24 +1,32 @@
 import { SearchOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
 
-export const SearchWrap = styled.div`
+export const SearchWrap = styled.span`
   position: relative;
-  width: 15%;
+  width: 500px;
+  height: 45px;
+
+  cursor: pointer;
+  :hover {
+    /* box-shadow: 5px 5px 2px 1px rgba(255, 199, 199, 0.2); */
+    border-bottom: 1px solid #000;
+  }
 `;
 
 export const SearchBox = styled.input`
+  background-color: rgba(0, 0, 0, 0);
+
   border: none;
   width: 100%;
-  box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, 0.2);
-  height: 30px;
-  border-radius: 15px;
-  padding: 0 0 0 32px;
+  height: 100%;
+  padding: 0 0 0 36px;
   font-size: 15px;
+  cursor: pointer;
 `;
 
 export const SearchIcon = styled(SearchOutlined)`
   position: absolute;
-  top: 7px;
-  left: 12px;
+  top: 14px;
+  left: 14px;
   z-index: 1;
 `;

@@ -18,7 +18,8 @@ export const Wrap = styled(Slider)`
     top: -60px;
     color: rgba(255, 255, 255, 0.85);
   }
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 `;
 
 export const SliderItem = styled.img`

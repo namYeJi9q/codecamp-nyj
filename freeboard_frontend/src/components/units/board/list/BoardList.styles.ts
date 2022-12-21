@@ -9,6 +9,13 @@ export const InnerWapper = styled.section`
   margin: 100px auto;
 `;
 
+export const Title = styled.h2`
+  width: 100%;
+  font-size: 40px;
+  text-align: center;
+  padding: 50px 0;
+`;
+
 export const SearchWrap = styled.div`
   display: flex;
   flex-direction: row;

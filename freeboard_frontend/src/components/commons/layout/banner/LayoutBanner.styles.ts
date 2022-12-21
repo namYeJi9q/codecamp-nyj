@@ -1,8 +1,4 @@
-import {
-  CloseOutlined,
-  MenuFoldOutlined,
-  MenuOutlined,
-} from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -11,13 +7,15 @@ import styled from "@emotion/styled";
 // }
 
 interface ILayoutHeaderStyle {
-  isActive?: boolean;
+  isOpen?: boolean;
   onClick?: () => void;
 }
 
 const media = css`
   @media screen and (max-width: 1200px) {
     width: 100%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 `;
 
@@ -37,40 +35,25 @@ const hover = css`
 
 export const Exit = styled(CloseOutlined)`
   font-size: 20px;
-`;
-
-export const MenuO = styled(MenuOutlined)`
-  color: #fbf9f7;
-  opacity: 0.6;
-  position: relative;
+  color: #fff;
+  position: absolute;
   top: -10px;
-  left: 520px;
-  font-size: 28px;
-  font-weight: 100;
-  border: 1px solid red;
-`;
-
-export const MenuF = styled(MenuFoldOutlined)`
-  color: #fbf9f7;
-  opacity: 0.6;
-  position: relative;
-  top: -10px;
-  right: -120px;
-  font-size: 28px;
-  font-weight: 100;
+  left: 130px;
 `;
 
 export const HeaderWrapper = styled.div`
+  position: fixed;
   width: 250px;
-  height: 100%;
-  /* border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px; */
-  background-color: rgba(14, 6, 9, 0.5);
+  height: 100vh;
+  border-top-right-radius: 35px;
+  border-bottom-right-radius: 35px;
+  background-color: #142d4c;
   z-index: 999;
   padding: 40px 75px;
-  position: fixed;
-  /* transform: ${(props: ILayoutHeaderStyle) =>
-    props.isActive ? "translateX(0)" : "translateX(-300px)"}; */
+  top: 0;
+  left: 0;
+  transform: ${(props: ILayoutHeaderStyle) =>
+    props.isOpen ? "translateX(0)" : "translateX(-300px)"};
 `;
 
 export const HeaderInnerWrapper = styled.div`
@@ -79,8 +62,6 @@ export const HeaderInnerWrapper = styled.div`
   flex-direction: column;
   line-height: 50px;
   position: relative;
-
-  ${media}
 `;
 
 export const HomeMenu = styled.h1`
@@ -122,8 +103,7 @@ export const Sign = styled.div`
 
 export const Login = styled.div`
   position: relative;
-  ${hover}/* display: ${(props: ILayoutHeaderStyle) =>
-    props.onClick === undefined ? "none" : "none"}; */
+  ${hover}
 `;
 
 export const SignUp = styled.div`

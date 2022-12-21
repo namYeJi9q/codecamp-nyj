@@ -1,6 +1,5 @@
-import { useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
 import {
   IQuery,
   IQueryFetchUseditemArgs,
@@ -17,15 +16,29 @@ import InfiniteScroll from "react-infinite-scroller";
 import { FETCH_USED_ITEM } from "../../../commons/hooks/queries/useQueryFetchUseditem";
 import { PlusOutlined } from "@ant-design/icons";
 
+const FETCH_USED_ITEMS_OF_THE_BEST = gql`
+  query {
+    fetchUseditemsOfTheBest {
+      _id
+      name
+      remarks
+      contents
+      price
+      images
+      pickedCount
+      seller {
+        name
+      }
+    }
+  }
+`;
+
 export default function MarketList() {
   const router = useRouter();
   const mySecretCode = uuidv4();
   const [keyword, setKeyword] = useState("");
   const { onClickMoveToPage } = useMoveToPage();
   //  onClick={onClickMoveToPage("/boards")}
-  const { register, handleSubmit, setValue, trigger } = useForm({
-    mode: "onChange",
-  });
 
   const { data, refetch, fetchMore } = useQuery<
     Pick<IQuery, "fetchUseditems">,
@@ -39,7 +52,11 @@ export default function MarketList() {
     variables: { useditemId: String(router.query.useditemId) },
   });
 
-  console.log(itemData?.fetchUseditem.pickedCount);
+  const { data: bestItemData } = useQuery<
+    Pick<IQuery, "fetchUseditemsOfTheBest">
+  >(FETCH_USED_ITEMS_OF_THE_BEST);
+
+  console.log("bestItemData :", bestItemData);
 
   const onLoadMore = () => {
     if (!data) return;
@@ -71,6 +88,33 @@ export default function MarketList() {
   return (
     <S.Wrapper>
       <S.InnerWrapper>
+        <S.Title>Market</S.Title>
+
+        <S.BestitemWrap>
+          <S.BestTitle>인기 상품</S.BestTitle>
+          <S.ItemBoxWrap>
+            {bestItemData?.fetchUseditemsOfTheBest.map((el) => (
+              <S.Row key={el._id}>
+                <S.ProductThumbnail>
+                  <S.Image
+                    src={`https://storage.googleapis.com/${el.images[0]}`}
+                  />
+
+                  <S.Heart />
+                </S.ProductThumbnail>
+                <S.ProductInfo>
+                  <S.ColumnTitle onClick={onClickMoveToDetail} id={el._id}>
+                    {el.name}
+                  </S.ColumnTitle>
+                  <S.SellerName>{el.seller?.name}</S.SellerName>
+                  <S.Price>{el.price}원</S.Price>
+                  <S.ColumnBasic>{getDate(el.createdAt)}</S.ColumnBasic>
+                </S.ProductInfo>
+              </S.Row>
+            ))}
+          </S.ItemBoxWrap>
+        </S.BestitemWrap>
+
         <S.SearchWrap>
           <Search02Page refetch={refetch} onChangeKeyword={onChangeKeyword} />
           <div>
@@ -79,62 +123,6 @@ export default function MarketList() {
             </S.Button>
           </div>
         </S.SearchWrap>
-        <S.BestitemWrap>
-          <S.BestTitle>인기 상품</S.BestTitle>
-          <S.Bestitems>
-            <S.Best1>
-              <S.BestImage></S.BestImage>
-              <S.ProductInfo>
-                <S.ColumnTitle onClick={onClickMoveToDetail}>
-                  물품을 입력
-                  {/* {itemData?.fetchUseditem.name} */}
-                </S.ColumnTitle>
-                <S.Price>
-                  {/* {itemData?.fetchUseditem.price}원 */}
-                  가격을 입력
-                </S.Price>
-                <S.ColumnBasic>
-                  날짜를 입력
-                  {/* {getDate(itemData?.fetchUseditem.createdAt)} */}
-                </S.ColumnBasic>
-              </S.ProductInfo>
-            </S.Best1>
-            <S.Best2>
-              <S.BestImage></S.BestImage>
-              <S.ProductInfo>
-                <S.ColumnTitle onClick={onClickMoveToDetail}>
-                  물품을 입력
-                  {/* {itemData?.fetchUseditem.name} */}
-                </S.ColumnTitle>
-                <S.Price>
-                  {/* {itemData?.fetchUseditem.price}원 */}
-                  가격을 입력
-                </S.Price>
-                <S.ColumnBasic>
-                  날짜를 입력
-                  {/* {getDate(itemData?.fetchUseditem.createdAt)} */}
-                </S.ColumnBasic>
-              </S.ProductInfo>
-            </S.Best2>
-            <S.Best3>
-              <S.BestImage></S.BestImage>
-              <S.ProductInfo>
-                <S.ColumnTitle onClick={onClickMoveToDetail}>
-                  물품을 입력
-                  {/* {itemData?.fetchUseditem.name} */}
-                </S.ColumnTitle>
-                <S.Price>
-                  {/* {itemData?.fetchUseditem.price}원 */}
-                  가격을 입력
-                </S.Price>
-                <S.ColumnBasic>
-                  날짜를 입력
-                  {/* {getDate(itemData?.fetchUseditem.createdAt)} */}
-                </S.ColumnBasic>
-              </S.ProductInfo>
-            </S.Best3>
-          </S.Bestitems>
-        </S.BestitemWrap>
         <S.FlexWrap>
           <InfiniteScroll
             pageStart={0}
@@ -149,6 +137,7 @@ export default function MarketList() {
                     <S.Image
                       src={`https://storage.googleapis.com/${el.images[0]}`}
                     />
+                    <S.Heart />
                   </S.ProductThumbnail>
                   <S.ProductInfo>
                     <S.ColumnTitle onClick={onClickMoveToDetail} id={el._id}>
@@ -169,6 +158,7 @@ export default function MarketList() {
                           </span>
                         ))}
                     </S.ColumnTitle>
+                    <S.SellerName>{el.seller?.name}</S.SellerName>
                     <S.Price>{el.price}원</S.Price>
                     <S.ColumnBasic>{getDate(el.createdAt)}</S.ColumnBasic>
                   </S.ProductInfo>

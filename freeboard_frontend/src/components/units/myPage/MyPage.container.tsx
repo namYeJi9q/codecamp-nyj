@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { IQuery } from "../../../commons/types/generated/types";
 import { FETCH_USER_LOGGED_IN } from "./MyPage.queries";
 import * as S from "./MyPage.styles";
-import PaymentPage from "../market/myPoint/myPointPayment";
+import PaymentPage from "./myPoint/myPointPayment";
 
 export default function MyPage() {
   const { data } =

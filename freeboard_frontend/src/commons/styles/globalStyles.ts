@@ -11,7 +11,7 @@ export const globalStyles = css`
   }
 
   body {
-    background-color: #fbf9f7;
+    background-color: #fff;
   }
 
   @font-face {

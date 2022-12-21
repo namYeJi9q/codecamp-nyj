@@ -10,6 +10,9 @@ export const FETCH_USED_ITEMS = gql`
       contents
       images
       createdAt
+      seller {
+        name
+      }
     }
   }
 `;

@@ -5,7 +5,7 @@ import { Modal } from "antd";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
-import { accessTokenState } from "../../../commons/stores";
+import { accessTokenState, isOpenState } from "../../../commons/stores";
 import {
   IMutation,
   IMutationLoginUserArgs,
@@ -22,9 +22,15 @@ interface IFormData {
 }
 
 export default function SignIn() {
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const router = useRouter();
 
-  const [, setAccessToken] = useRecoilState(accessTokenState);
+  if (accessToken !== undefined) {
+    void router.push("/");
+  }
+
+  const [Open, setOpen] = useRecoilState(isOpenState);
+
   const [loginUser] = useMutation<
     Pick<IMutation, "loginUser">,
     IMutationLoginUserArgs
