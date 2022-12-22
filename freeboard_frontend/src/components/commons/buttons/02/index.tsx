@@ -5,6 +5,7 @@ interface IButton02Props {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   title?: string;
   style?: any;
+  type?: any;
 }
 const Button = styled.button`
   width: 162px;
@@ -24,7 +25,12 @@ const Button = styled.button`
 
 export default function Button02(props: IButton02Props) {
   return (
-    <Button onClick={props.onClick} title={props.title} style={props.style}>
+    <Button
+      type={props.type}
+      onClick={props.onClick}
+      title={props.title}
+      style={props.style}
+    >
       {props.title}
     </Button>
   );

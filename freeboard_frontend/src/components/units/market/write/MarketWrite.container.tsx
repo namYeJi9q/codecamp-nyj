@@ -16,6 +16,7 @@ import Button02 from "../../../commons/buttons/02";
 import { ChangeEvent, useRef, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { UPLOAD_FILE } from "../../../commons/uploads/01/Uploads01.queries";
+import { useMoveToPage } from "../../../commons/hooks/customs/useMoveToPage";
 
 interface IFormData {
   name: string;
@@ -48,7 +49,8 @@ export default function MarketWrite(props: IMarketProps) {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
   const [fileUrls, setFileUrls] = useState(["", "", ""]);
-  const [file, setFile] = useState<File>();
+  const [files, setFiles] = useState<File[]>([]);
+  const { onClickMoveToPage } = useMoveToPage();
 
   const [createUseditem] = useMutationCreateUseditem();
 
@@ -62,8 +64,7 @@ export default function MarketWrite(props: IMarketProps) {
   });
 
   const onChangeFile =
-    (fileUrls: string, index: number) =>
-    async (event: ChangeEvent<HTMLInputElement>) => {
+    (index: number) => async (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0]; // files. <input type="file" multiple /> 일 때 여러개 드래그 가능.
       if (file === undefined) return;
 
@@ -72,9 +73,14 @@ export default function MarketWrite(props: IMarketProps) {
       fileReader.onload = (event) => {
         if (typeof event.target?.result === "string") {
           console.log(event.target?.result); // 게시판에서 event.target.id를 쓰면 eslint가 잡았던 이유 : event.target은 태그만을 가르키지 않음
+
           const tempUrls = [...fileUrls];
           tempUrls[index] = event.target?.result;
           setFileUrls(tempUrls);
+
+          const tempFiles = [...files];
+          tempFiles[index] = file;
+          setFiles(tempFiles);
         }
       };
     };
@@ -190,12 +196,28 @@ export default function MarketWrite(props: IMarketProps) {
                   onChange={onChangeFile(0)}
                   ref={fileRef}
                 />
+                <S.InputImg
+                  type="file"
+                  onChange={onChangeFile(1)}
+                  ref={fileRef}
+                />
+                <S.InputImg
+                  type="file"
+                  onChange={onChangeFile(2)}
+                  ref={fileRef}
+                />
                 <S.ShowImg src={fileUrls[0]} onClick={onClickUpload} />
+                <S.ShowImg src={fileUrls[1]} onClick={onClickUpload} />
+                <S.ShowImg src={fileUrls[2]} onClick={onClickUpload} />
               </S.ImgWrap>
             </S.InputWrapper>
             <S.ButtonWrap>
               <Button02
                 title={props.isEdit ? "수정하기" : "등록하기"}
+              ></Button02>
+              <Button02
+                title="취소하기"
+                onClick={onClickMoveToPage("/market")}
               ></Button02>
             </S.ButtonWrap>
           </S.Form>

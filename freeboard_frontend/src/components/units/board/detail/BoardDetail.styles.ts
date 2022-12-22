@@ -6,9 +6,7 @@ import {
   EnvironmentFilled,
 } from "@ant-design/icons";
 
-export const Wrapper = styled.div`
-  border: 1px solid red;
-`;
+export const Wrapper = styled.div``;
 
 export const InnerWapper = styled.section`
   width: 1200px;
@@ -112,13 +110,15 @@ export const DislikeCount = styled.div`
 `;
 
 export const ImageWrapper = styled.div`
+  width: 30%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 `;
 
 export const Image = styled.img`
-  width: 996px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   margin-bottom: 30px;
 `;
 

@@ -106,6 +106,7 @@ export const Youtube = styled.input`
 
 export const ImageWrapper = styled.div`
   width: 996px;
+  height: 100%;
   padding-top: 40px;
 `;
 
