@@ -7,7 +7,7 @@ const nextConfig = {
   // 아래 주소들만 out 폴더에 만들어줘(getServerSideProps가 있는 페이지를 제외)
   exportPathMap: () => ({
     "/": { page: "/" },
-    boards: { page: "/" },
+    "/boards": { page: "/boards" },
     "/404": { page: "/404" },
   }),
 };
