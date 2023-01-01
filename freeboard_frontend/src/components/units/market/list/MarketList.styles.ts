@@ -100,10 +100,19 @@ export const Image = styled.img`
 
 export const Heart = styled(HeartFilled)`
   position: absolute;
-  bottom: 15px;
+  bottom: 35px;
   right: 15px;
   color: #9fd3c7;
   font-size: 25px;
+`;
+
+export const PickCount = styled.p`
+  position: absolute;
+  bottom: 15px;
+  right: 25px;
+  font-size: 12px;
+  font-weight: 300;
+  color: #fff;
 `;
 
 export const ProductInfo = styled.section`
@@ -112,8 +121,8 @@ export const ProductInfo = styled.section`
 `;
 
 export const Price = styled(ColumnBasic)`
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: 600;
+  font-size: 22px;
 `;
 
 export const Button = styled.button`

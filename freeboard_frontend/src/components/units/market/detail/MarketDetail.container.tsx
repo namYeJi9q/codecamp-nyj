@@ -1,9 +1,12 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { DeleteOutlined } from "@ant-design/icons";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { getDate } from "../../../../commons/libraries/utils";
+import { useState } from "react";
+import { getCreated } from "../../../../commons/libraries/utils";
 import {
   IMutation,
   IMutationDeleteUseditemArgs,
+  IMutationToggleUseditemPickArgs,
   IMutationUpdateUseditemArgs,
   IQuery,
   IQueryFetchUseditemArgs,
@@ -18,8 +21,15 @@ import {
 
 import * as S from "./MarketDetail.styles";
 
+const TOGGLE_USED_ITEM_PICK = gql`
+  mutation toggleUseditemPick($useditemId: ID!) {
+    toggleUseditemPick(useditemId: $useditemId)
+  }
+`;
+
 export default function MarketDetail() {
   const router = useRouter();
+  const [picked, usePicked] = useState(false);
 
   const { onClickMoveToPage } = useMoveToPage();
 
@@ -41,12 +51,32 @@ export default function MarketDetail() {
     IMutationDeleteUseditemArgs
   >(DELETE_USED_ITEM);
 
+  const [toggleUseditemPick] = useMutation<
+    Pick<IMutation, "toggleUseditemPick">,
+    IMutationToggleUseditemPickArgs
+  >(TOGGLE_USED_ITEM_PICK);
+
   const onClickDelete = async () => {
     await deleteUseditem({
       variables: { useditemId: String(router.query.useditemId) },
     });
     alert("게시글을 삭제되었습니다.");
     void router.push("/market");
+  };
+
+  const onClickPick = async () => {
+    await toggleUseditemPick({
+      variables: {
+        useditemId: String(router.query.useditemId),
+      },
+      refetchQueries: [
+        {
+          query: FETCH_USED_ITEM,
+          variables: { useditemId: router.query.useditemId },
+        },
+      ],
+    });
+    usePicked((prev) => !prev);
   };
 
   return (
@@ -58,9 +88,27 @@ export default function MarketDetail() {
               <S.Avatar src="/images/avatar.png" />
               <S.Info>
                 <S.Writer>{data?.fetchUseditem?.seller?.name}</S.Writer>
-                <S.CreatedAt></S.CreatedAt>
+                <S.CreatedAt>
+                  {getCreated(data?.fetchUseditem.createdAt)}
+                </S.CreatedAt>
               </S.Info>
             </S.AvatarWrapper>
+            <S.Operation>
+              <S.PickedCount>{data?.fetchUseditem.pickedCount}</S.PickedCount>
+              {picked ? (
+                <S.PickedAct onClick={onClickPick} />
+              ) : (
+                <S.Picked onClick={onClickPick} />
+              )}
+              <DeleteOutlined
+                style={{
+                  fontSize: "25px",
+                  color: "#9fd3c7",
+                  marginLeft: "10px",
+                }}
+                onClick={onClickDelete}
+              />
+            </S.Operation>
           </S.Header>
           <S.Title>{data?.fetchUseditem?.name}</S.Title>
           <S.ImageWrapper>

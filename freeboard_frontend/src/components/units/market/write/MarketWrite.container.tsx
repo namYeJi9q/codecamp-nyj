@@ -25,10 +25,11 @@ interface IFormData {
   price: number;
   tags?: [string];
   preventDefault?: any;
-  // useditemAddress?: {
-  //   zipcode?: string;
-  //   addressDetail?: string;
-  // };
+  useditemAddress?: {
+    address: string;
+    zipcode?: string;
+    addressDetail?: string;
+  };
   images?: [string];
   pickedCount?: number;
   createdAt?: string;
@@ -90,8 +91,11 @@ export default function MarketWrite(props: IMarketProps) {
   };
 
   const onClickSubmit = async (data: IFormData) => {
-    const resultFile = await uploadFile({ variables: { file } });
-    const url = resultFile.data?.uploadFile.url;
+    const resultFile = await Promise.all(
+      files.map(async (file) => await uploadFile({ variables: { file } }))
+    );
+    console.log(resultFile[2]);
+    const url = resultFile[2].data?.uploadFile.url;
     const result = await createUseditem({
       variables: {
         createUseditemInput: {
@@ -100,10 +104,11 @@ export default function MarketWrite(props: IMarketProps) {
           contents: data.contents,
           price: Number(data.price),
           tags: [String(data.tags)],
-          // useditemAddress: {
-          //   zipcode: data.useditemAddress.zipcode,
-          //   addressDetail: data.useditemAddress.addressDetail,
-          // },
+          useditemAddress: {
+            address: data.useditemAddress?.address,
+            // zipcode: data.useditemAddress.zipcode,
+            addressDetail: data?.useditemAddress?.addressDetail,
+          },
           images: [url!],
         },
       },
@@ -183,8 +188,27 @@ export default function MarketWrite(props: IMarketProps) {
                 <KakaoMapPage />
                 <div>
                   <S.Label>주소</S.Label>
-                  <input type="text" />
-                  <input type="text" />
+                  <S.InputBox
+                    type="text"
+                    {...register("useditemAddress.address")}
+                    defaultValue={
+                      props.data?.fetchUseditem?.useditemAddress?.address ?? ""
+                    }
+                    readOnly={
+                      !!props.data?.fetchUseditem.useditemAddress?.address
+                    }
+                  />
+                  <S.InputBox
+                    type="text"
+                    {...register("useditemAddress.addressDetail")}
+                    defaultValue={
+                      props.data?.fetchUseditem?.useditemAddress
+                        ?.addressDetail ?? ""
+                    }
+                    readOnly={
+                      !!props.data?.fetchUseditem.useditemAddress?.addressDetail
+                    }
+                  />
                 </div>
               </S.MapWrap>
             </S.InputWrapper>
@@ -213,6 +237,7 @@ export default function MarketWrite(props: IMarketProps) {
             </S.InputWrapper>
             <S.ButtonWrap>
               <Button02
+                type="submit"
                 title={props.isEdit ? "수정하기" : "등록하기"}
               ></Button02>
               <Button02

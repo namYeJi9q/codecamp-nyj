@@ -1,3 +1,4 @@
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
@@ -45,6 +46,27 @@ export const Info = styled.div`
   justify-content: center;
 `;
 
+export const Operation = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+
+export const PickedAct = styled(HeartFilled)`
+  color: #9fd3c7;
+  font-size: 25px;
+`;
+
+export const Picked = styled(HeartOutlined)`
+  color: #9fd3c7;
+  font-size: 25px;
+`;
+
+export const PickedCount = styled.p`
+  font-size: 12px;
+  font-weight: 300;
+  margin-right: 10px;
+`;
 export const Writer = styled.div``;
 
 export const CreatedAt = styled.div``;

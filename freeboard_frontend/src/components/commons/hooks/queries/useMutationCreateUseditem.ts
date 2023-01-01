@@ -15,9 +15,16 @@ export const CREATE_USED_ITEM = gql`
       tags
       images
       pickedCount
-      useditemAddress
-      seller
-      buyer
+      useditemAddress {
+        _id
+        zipcode
+        address
+        addressDetail
+      }
+      seller {
+        _id
+        name
+      }
       createdAt
     }
   }

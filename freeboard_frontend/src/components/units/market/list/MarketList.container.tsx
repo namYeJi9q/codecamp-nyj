@@ -1,6 +1,8 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
+  IMutation,
+  IMutationToggleUseditemPickArgs,
   IQuery,
   IQueryFetchUseditemArgs,
   IQueryFetchUseditemsArgs,
@@ -8,13 +10,13 @@ import {
 import { useMoveToPage } from "../../../commons/hooks/customs/useMoveToPage";
 import * as S from "./MarketList.styles";
 import { v4 as uuidv4 } from "uuid";
-import { getDate } from "../../../../commons/libraries/utils";
 import Search02Page from "../../../commons/search/02/search02.container";
 import { MouseEvent, useState } from "react";
 import { FETCH_USED_ITEMS } from "../../../commons/hooks/queries/useQueryFetchUseditems";
 import InfiniteScroll from "react-infinite-scroller";
 import { FETCH_USED_ITEM } from "../../../commons/hooks/queries/useQueryFetchUseditem";
 import { PlusOutlined } from "@ant-design/icons";
+import { getCreated } from "../../../../commons/libraries/utils";
 
 const FETCH_USED_ITEMS_OF_THE_BEST = gql`
   query {
@@ -29,7 +31,14 @@ const FETCH_USED_ITEMS_OF_THE_BEST = gql`
       seller {
         name
       }
+      createdAt
     }
+  }
+`;
+
+const TOGGLE_USED_ITEM_PICK = gql`
+  mutation toggleUseditemPick($useditemId: ID!) {
+    toggleUseditemPick(useditemId: $useditemId)
   }
 `;
 
@@ -56,7 +65,10 @@ export default function MarketList() {
     Pick<IQuery, "fetchUseditemsOfTheBest">
   >(FETCH_USED_ITEMS_OF_THE_BEST);
 
-  console.log("bestItemData :", bestItemData);
+  const [toggleUseditemPick] = useMutation<
+    Pick<IMutation, "toggleUseditemPick">,
+    IMutationToggleUseditemPickArgs
+  >(TOGGLE_USED_ITEM_PICK);
 
   const onLoadMore = () => {
     if (!data) return;
@@ -85,6 +97,24 @@ export default function MarketList() {
     router.push(`/market/${event.currentTarget.id}`);
   };
 
+  const onClickPick = async () => {
+    await toggleUseditemPick({
+      variables: {
+        useditemId: String(router.query.useditemId),
+      },
+      refetchQueries: [
+        {
+          query: FETCH_USED_ITEM,
+          variables: { useditemId: router.query.useditemId },
+        },
+        // {
+        //   query: FETCH_USED_ITEMS_OF_THE_BEST,
+        //   variables: { useditemId: router.query.useditemId },
+        // },
+      ],
+    });
+  };
+
   return (
     <S.Wrapper>
       <S.InnerWrapper>
@@ -92,15 +122,15 @@ export default function MarketList() {
 
         <S.BestitemWrap>
           <S.BestTitle>인기 상품</S.BestTitle>
-          <S.ItemBoxWrap>
+          <S.ItemBoxWrap className="wow slideInLeft">
             {bestItemData?.fetchUseditemsOfTheBest.map((el) => (
               <S.Row key={el._id}>
                 <S.ProductThumbnail>
                   <S.Image
                     src={`https://storage.googleapis.com/${el.images[0]}`}
                   />
-
-                  <S.Heart />
+                  <S.Heart onClick={onClickPick} />
+                  <S.PickCount>{el.pickedCount}</S.PickCount>
                 </S.ProductThumbnail>
                 <S.ProductInfo>
                   <S.ColumnTitle onClick={onClickMoveToDetail} id={el._id}>
@@ -108,7 +138,7 @@ export default function MarketList() {
                   </S.ColumnTitle>
                   <S.SellerName>{el.seller?.name}</S.SellerName>
                   <S.Price>{el.price}원</S.Price>
-                  <S.ColumnBasic>{getDate(el.createdAt)}</S.ColumnBasic>
+                  <S.ColumnBasic>{getCreated(el.createdAt)}</S.ColumnBasic>
                 </S.ProductInfo>
               </S.Row>
             ))}
@@ -137,7 +167,8 @@ export default function MarketList() {
                     <S.Image
                       src={`https://storage.googleapis.com/${el.images[0]}`}
                     />
-                    <S.Heart />
+                    <S.Heart onClick={onClickPick} />
+                    <S.PickCount>{el.pickedCount}</S.PickCount>
                   </S.ProductThumbnail>
                   <S.ProductInfo>
                     <S.ColumnTitle onClick={onClickMoveToDetail} id={el._id}>
@@ -160,7 +191,7 @@ export default function MarketList() {
                     </S.ColumnTitle>
                     <S.SellerName>{el.seller?.name}</S.SellerName>
                     <S.Price>{el.price}원</S.Price>
-                    <S.ColumnBasic>{getDate(el.createdAt)}</S.ColumnBasic>
+                    <S.ColumnBasic>{getCreated(el.createdAt)}</S.ColumnBasic>
                   </S.ProductInfo>
                 </S.Row>
               ))}
