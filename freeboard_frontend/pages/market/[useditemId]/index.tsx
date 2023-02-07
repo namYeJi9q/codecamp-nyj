@@ -4,6 +4,5 @@ import MarketCommentWrite from "../../../src/components/units/marketComment/writ
 
 export default function MarketDetailPage() {
   return <MarketDetail />;
-  return <MarketCommentWrite />;
   return <MarketCommentList />;
 }

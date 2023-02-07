@@ -6,11 +6,11 @@ export default function SimpleSlider() {
     dots: true,
     infinite: true,
     speed: 500,
+    autoplay: true,
+    autoplaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
-    autoplay: true,
-    autoplaySpeed: 3000,
   };
   return (
     <S.Wrapper>

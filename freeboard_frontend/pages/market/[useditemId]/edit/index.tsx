@@ -15,7 +15,9 @@ export default function MarketEditPage() {
   const { data, refetch } = useQuery<
     Pick<IQuery, "fetchUseditem">,
     IQueryFetchUseditemArgs
-  >(FETCH_USED_ITEM, { variables: { useditemId: router.query.useditemId } });
+  >(FETCH_USED_ITEM, {
+    variables: { useditemId: String(router.query.useditemId) },
+  });
 
   return <MarketWrite data={data} />;
 }

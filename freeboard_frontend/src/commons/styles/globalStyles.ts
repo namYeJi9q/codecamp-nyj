@@ -14,6 +14,14 @@ export const globalStyles = css`
     background-color: #fff;
   }
 
+  button {
+    cursor: pointer;
+  }
+
+  input {
+    outline: none;
+  }
+
   @font-face {
     font-family: "myfont1";
     src: url("/fonts/DalseoHealingMedium.ttf");

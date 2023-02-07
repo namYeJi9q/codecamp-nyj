@@ -54,6 +54,7 @@ export const HeaderWrapper = styled.div`
   left: 0;
   transform: ${(props: ILayoutHeaderStyle) =>
     props.isOpen ? "translateX(0)" : "translateX(-300px)"};
+  transition: transform 0.3s ease-in-out;
 `;
 
 export const HeaderInnerWrapper = styled.div`

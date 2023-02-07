@@ -1,5 +1,4 @@
 import { ShoppingOutlined } from "@ant-design/icons";
-import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { isOpenState } from "../../../../commons/stores";
 import * as S from "./LayoutHeader.styles";
