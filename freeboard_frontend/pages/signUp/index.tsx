@@ -105,7 +105,6 @@ export default function SignUpPage() {
   });
 
   const onClickSignUp = async (data: IFormData) => {
-    console.log(data);
     try {
       const result = await createUser({
         variables: {

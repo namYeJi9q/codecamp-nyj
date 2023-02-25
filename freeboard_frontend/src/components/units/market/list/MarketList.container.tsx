@@ -126,9 +126,13 @@ export default function MarketList() {
             {bestItemData?.fetchUseditemsOfTheBest.map((el) => (
               <S.Row key={el._id}>
                 <S.ProductThumbnail>
-                  <S.Image
-                    src={`https://storage.googleapis.com/${el.images[0]}`}
-                  />
+                  {el.images !== null && el.images !== undefined ? (
+                    <S.Image
+                      src={`https://storage.googleapis.com/${el.images[0]}`}
+                    />
+                  ) : (
+                    <S.Image src="/images/default.jpeg" />
+                  )}
                   <S.Heart onClick={onClickPick} />
                   <S.PickCount>{el.pickedCount}</S.PickCount>
                 </S.ProductThumbnail>
@@ -164,9 +168,13 @@ export default function MarketList() {
               {data?.fetchUseditems.map((el) => (
                 <S.Row key={el._id}>
                   <S.ProductThumbnail>
-                    <S.Image
-                      src={`https://storage.googleapis.com/${el.images[0]}`}
-                    />
+                    {el.images !== null && el.images !== undefined ? (
+                      <S.Image
+                        src={`https://storage.googleapis.com/${el.images[0]}`}
+                      />
+                    ) : (
+                      <S.Image src="/images/default.jpeg" />
+                    )}
                     <S.Heart onClick={onClickPick} />
                     <S.PickCount>{el.pickedCount}</S.PickCount>
                   </S.ProductThumbnail>

@@ -5,7 +5,6 @@ import * as S from "./search02.styles";
 import {
   IQuery,
   IQueryFetchBoardsArgs,
-  IQueryFetchBoardsCountArgs,
 } from "../../../../commons/types/generated/types";
 
 interface ISearch02Props {
